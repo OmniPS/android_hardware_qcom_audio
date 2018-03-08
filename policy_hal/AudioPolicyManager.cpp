@@ -36,9 +36,9 @@
  */
 
 #define LOG_TAG "AudioPolicyManagerCustom"
-//#define LOG_NDEBUG 0
+#define LOG_NDEBUG 0
 
-//#define VERY_VERBOSE_LOGGING
+#define VERY_VERBOSE_LOGGING
 #ifdef VERY_VERBOSE_LOGGING
 #define ALOGVV ALOGV
 #else
@@ -1328,6 +1328,8 @@ status_t AudioPolicyManagerCustom::checkAndSetVolume(audio_stream_type_t stream,
         volumeDb = 0.0f;
     }
 
+    ALOGV("setVolume(%f,%d,%d,%d,%d);",volumeDb,stream,device,delayMs,force);
+
     outputDesc->setVolume(volumeDb, stream, device, delayMs, force);
 
     if (stream == AUDIO_STREAM_VOICE_CALL ||
@@ -1341,6 +1343,7 @@ status_t AudioPolicyManagerCustom::checkAndSetVolume(audio_stream_type_t stream,
         }
 
         if (voiceVolume != mLastVoiceVolume) {
+    	    ALOGV("setVoiceVolume(%f,%d);",voiceVolume,delayMs);
             mpClientInterface->setVoiceVolume(voiceVolume, delayMs);
             mLastVoiceVolume = voiceVolume;
         }
